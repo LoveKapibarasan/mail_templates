@@ -1,0 +1,7 @@
+PyQt6
+jinja2
+pyinstaller
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
