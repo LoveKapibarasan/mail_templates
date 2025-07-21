@@ -227,7 +227,7 @@ class MailTemplateGUI(QWidget):
             company=self.company_input.text(),
             remarks=self.remarks_input.text(),
             call_to_action="",
-            button_link="https://gitlab.oth-regensburg.de/nat32791",
+            button_link="https://github.com/LoveKapibarasan/mail_templates",
             button_text=self.button_text,
             year=datetime.now().year,
             footer_brand="TryWorks",
