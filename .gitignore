@@ -1,11 +1,13 @@
 # important files folders
 Settings/Settings_email.json
 Settings/Settings_Lang.json
+Settings
 client_secret.json
 token.pickle
 credentials.json
 client_secrets.json
-myenv/
+venv
+.env
 
 # Byte-compiled / optimized / DLL files
 

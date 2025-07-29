@@ -14,6 +14,7 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QVBoxLayout,
     QPushButton, QComboBox, QScrollArea, QLineEdit
 )
+from inbox_window import InboxWindow
 
 TEMPLATE_PATH = r"mail_template.html"
 
@@ -29,6 +30,15 @@ class MailTemplateGUI(QWidget):
         self.load_translations()
         self.load_settings()
         self.init_ui()
+        try:
+            self.inbox_window = InboxWindow(parent=self, translations=self.translations)
+            self.inbox_window.setWindowFlags(Qt.WindowType.Window)
+            self.inbox_window.show()
+            self.inbox_window.email_selected.connect(self.handle_email_selection)
+            self.inbox_window.show()
+        except Exception as e:
+            print("[ERROR] InboxWindow failed to initialize:", e)
+
 
     def load_translations(self):
         try:
@@ -209,8 +219,6 @@ class MailTemplateGUI(QWidget):
     def generate_and_send_email(self):
         with open(TEMPLATE_PATH, encoding="utf-8") as f:
             tmpl = Template(f.read())
-
-        
         
         rendered = tmpl.render(
             image_url="https://cxu.igu.mybluehost.me/wp-content/uploads/2025/06/Kapibarasan.png",
@@ -231,6 +239,7 @@ class MailTemplateGUI(QWidget):
             button_text=self.button_text,
             year=datetime.now().year,
             footer_brand="TryWorks",
+            original_message=getattr(self, "original_message", "")
         )
 
         with open("output.html", "w", encoding="utf-8") as f:
@@ -296,6 +305,15 @@ class MailTemplateGUI(QWidget):
                 print(f"[ERROR] SMTP failed: {e}")
         else:
             print("[ERROR] Missing SMTP configuration.")
+        
+    def handle_email_selection(self, email_data):
+        # Set recipient to sender
+        self.receiver_email_input.setText(email_data["from"])
+        self.subject_input.setText(f"Re: {email_data['subject']}")
+        self.text_input.setPlainText("")  # You can optionally include original text here
+        self.instruction_input.setPlainText("")
+        self.original_message = email_data['body'] 
+
 
 
 

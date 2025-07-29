@@ -7,7 +7,10 @@ from googleapiclient.discovery import build
 from email.message import EmailMessage
 
 # 1. Define OAuth2 Scopes (Gmail full access)
-SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
+          'https://www.googleapis.com/auth/gmail.send',
+          'https://www.googleapis.com/auth/gmail.modify']
+
 JSON_PATH = "client_secret.json"
 def gmail_authenticate():
     creds = None
