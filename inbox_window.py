@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QTextBrowser, QLabel, QPushButton, QMessageBox, QTextEdit
 from PyQt6.QtCore import pyqtSignal
 from google_oauth2 import gmail_authenticate
-from chat_gpt import chat_gpt
 import base64
 
 class InboxWindow(QWidget):
@@ -19,17 +18,9 @@ class InboxWindow(QWidget):
 
         self.email_body = QTextBrowser()
 
-        self.gpt_suggestion_edit = QTextEdit()
-        self.gpt_suggestion_edit.setPlaceholderText("GPT suggestion will appear here...")
-        layout.addWidget(QLabel("GPT Suggested Reply:"))
-        layout.addWidget(self.gpt_suggestion_edit)
-
-
         self.refresh_button = QPushButton("🔄 Refresh Inbox")
         self.refresh_button.clicked.connect(self.load_inbox_messages)
 
-        self.suggest_button = QPushButton("💡 Suggest GPT Reply")
-        self.suggest_button.clicked.connect(self.suggest_gpt_reply)
 
         self.delete_button = QPushButton("🗑️ Delete Selected Email")
         self.delete_button.clicked.connect(self.delete_selected_email)
@@ -38,7 +29,6 @@ class InboxWindow(QWidget):
         layout.addWidget(self.email_list)
         layout.addWidget(QLabel("Email Body"))
         layout.addWidget(self.email_body)
-        layout.addWidget(self.suggest_button)
         layout.addWidget(self.delete_button)
         layout.addWidget(self.refresh_button)
 
@@ -110,29 +100,5 @@ class InboxWindow(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to move email to Trash:\n{e}")
 
-
-    def suggest_gpt_reply(self):
-        if not hasattr(self, "selected_msg_id"):
-            QMessageBox.warning(self, "Error", "Please select an email first.")
-            return
-
-        body = self.email_body.toPlainText()
-
-        try:
-            # Get GPT reply
-            suggestion = chat_gpt(body)
-
-            # Get current language and corresponding header
-            lang = self.parent_gui.lang_combo.currentText() if self.parent_gui else "English"
-            gpt_header = self.translations.get("gpt_header", {}).get(lang, "")
-
-            # Combine header + GPT suggestion
-            full_text = f"{gpt_header}\n\n{suggestion}" if gpt_header else suggestion
-
-            # Display in editable area
-            self.gpt_suggestion_edit.setPlainText(full_text)
-
-        except Exception as e:
-            self.gpt_suggestion_edit.setPlainText(f"[GPT Error] {e}")
 
 

@@ -4,10 +4,6 @@ A PyQt6-based desktop application for generating and sending HTML emails using c
 
 ## Features
 
-- **Easy-to-use GUI** for entering all email details.
-- **Supports multiple email providers** (SMTP and Gmail OAuth2).
-- **Multi-language greetings and closings** (Deutsch, English, 日本語).
-- **Jinja2 HTML template rendering** for beautiful emails.
 - **Saves rendered email as `output.html`** for preview.
 - **Settings and translations loaded from JSON files**.
 
@@ -95,18 +91,4 @@ To send emails via Gmail using OAuth2, you need to set up Google API credentials
 5. **On first run,** the app will prompt you to log in with your Google account and authorize access. This will generate a `token.json` file for future use.
 
 **Note:**  
-- Never commit your `credentials.json` or `token.json` to version control.
 - For more details, see the [Gmail API Python Quickstart](https://developers.google.com/gmail/api/quickstart/python).
-## Notes
-
-- For Gmail OAuth2, you must set up Google API credentials. See [Gmail API Python Quickstart](https://developers.google.com/gmail/api/quickstart/python).
-- The application supports scrollable forms for usability.
-- All email content is rendered using the Jinja2 template engine.
-
-## License
-
-MIT License
-
----
-
-**Author:** Takanori Nagashima
