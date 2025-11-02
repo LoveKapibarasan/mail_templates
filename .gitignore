@@ -1,6 +1,6 @@
 # important files folders
-Settings/Settings_email.json
-Settings/Settings_Lang.json
+Settings/
+settings/
 # cache
 __pycache__/
 
@@ -9,17 +9,18 @@ __pycache__/
 
 # Environment variables / secrets
 .env
-.env.*
 *.env
 *.secret
 secrets.json
 
 # Output files
-output/output.html
+output/
+Output/
 
 # OAuth2 credentials (if present)
 token.json
 credentials.json
+**.pickle
 
 # Logs
 *.log

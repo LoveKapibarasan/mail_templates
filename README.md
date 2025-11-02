@@ -1,80 +1,5 @@
 # Mail Template GUI
 
-A PyQt6-based desktop application for generating and sending HTML emails using customizable templates and multi-language support.
-
-## Features
-
-- **Saves rendered email as `output.html`** for preview.
-- **Settings and translations loaded from JSON files**.
-
-## Requirements
-
-- Python 3.8+
-- [PyQt6](https://pypi.org/project/PyQt6/)
-- [Jinja2](https://pypi.org/project/Jinja2/)
-- [google-auth, google-api-python-client](https://developers.google.com/gmail/api/quickstart/python) (for Gmail OAuth2)
-- Other standard libraries: `smtplib`, `ssl`, `json`, `base64`, etc.
-
-Install dependencies with:
-
-```bash
-pip install PyQt6 Jinja2 google-auth google-auth-oauthlib google-api-python-client
-```
-
-## Usage
-
-1. **Configure your settings:**
-   - Edit `Settings/Settings_email.json` for SMTP providers.
-   - Edit `Settings/Settings_Lang.json` for translations.
-
-    **Example `Settings/Settings_Lang.json`:**
-
-   ```json
-   {
-     "greeting": {
-       "English": "Dear {name},",
-       "Deutsch": "Sehr geehrte/r {name},",
-       "日本語": "{name} 様"
-     },
-     "closing": {
-       "English": "Sincerely,",
-       "Deutsch": "Mit freundlichen Grüßen,",
-       "日本語": "敬具"
-     },
-     "sender_name": {
-       "English": "John Doe",
-       "Deutsch": "Johann Schmid",
-       "日本語": "ジョン"
-     }
-     // ... add other fields as needed ...
-    }
-   ```
-
-2. **Prepare your HTML template:**
-   - Edit `mail_template.html` as needed.
-
-3. **Run the application:**
-
-   ```bash
-   python substitute.py
-   ```
-
-4. **Fill out the form and click "Generate & Send Email".**
-   - The email will be sent and the HTML saved as `output.html`.
-
-## Directory Structure
-
-```text
-mail_templete/
-├── Settings/
-│   ├── Settings_email.json
-│   └── Settings_Lang.json
-├── ico/
-│   └── mail_template.ico
-├── substitute.py
-├── mail_template.html
-└── README.md
-```
 
 ## Google OAuth2 Setup
 
@@ -87,8 +12,36 @@ To send emails via Gmail using OAuth2, you need to set up Google API credentials
    - Go to "APIs & Services" > "Credentials".
    - Click "Create Credentials" > "OAuth client ID".
    - Choose "Desktop app" as the application type.
-   - Download the `credentials.json` file and place it in your project directory.
-5. **On first run,** the app will prompt you to log in with your Google account and authorize access. This will generate a `token.json` file for future use.
+   - Download the `**.json` file and place it in your project directory as `src/auth/config.json`.
+5. **On first run,** the app will prompt you to log in with your Google account and authorize access. This will generate a `token.pickle` file for future use.
 
 **Note:**  
 - For more details, see the [Gmail API Python Quickstart](https://developers.google.com/gmail/api/quickstart/python).
+
+## Azure OAuth2 Setup
+* [Documentation](https://learn.microsoft.com/en-us/graph/api/resources/mail-api-overview?view=graph-rest-1.0)
+
+1. Sign in to the Azure portal (https://portal.azure.com).
+2. Go to Azure Active Directory → App registrations → New registration.   Give it a name and register.
+3.  After registration:
+      * AZURE_CLIENT_ID is shown on the app’s Overview page as “Application (client) ID”.
+      * You’ll also need the Directory (tenant) ID shown there — commonly set as AZURE_TENANT_ID.
+4. Create a client secret:
+        In the app’s left menu choose Certificates & secrets → New client secret.
+        Give it a description and expiration, create it, and copy the value immediately.
+        That value is AZURE_CLIENT_SECRET. (You cannot retrieve it again later; if lost, create a new one.)
+5. Assign permissions/roles:
+        For Microsoft Graph or other APIs, configure API permissions and grant admin consent if needed.
+        For Azure resource operations, create a role assignment (e.g., Contributor) for the app/service principal at the subscription/resource group/resource scope.
+
+* Used for OAuth 2.0 client_credentials flow: your app POSTs `client_id + client_secret + tenant ID` to Azure’s token endpoint to receive an access token.
+* Example token endpoint: `https://login.microsoftonline.com/<AZURE_TENANT_ID>/oauth2/v2.0/token`
+
+### Run 
+
+```bash
+python3 -m .venv venv
+source .venv/bin/activate && pip install --upgrade pip
+source .venv/bin/activate && pip install -r requirements.txt
+source .venv/bin/activate && python src/script/substitute.py
+```
