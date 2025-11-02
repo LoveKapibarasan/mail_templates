@@ -102,7 +102,7 @@ class MailTemplateGUI(QWidget):
                 "senderemail": self.sender_input.text() or "sender@example.com",
                 "receiveremail": self.receiver_input.text() or "recipient@example.com",
                 "receiver": {
-                    "name": self.receiver_input.text().split('@')[0] if '@' in self.receiver_input.text() else "Recipient"
+                    "name": self.receiver_name_input.text() or "Recipient"
                 },
                 "subject": self.subject_input.text() or "subject",
                 "body": self.body_input.toPlainText() or "This is a test email message."

@@ -12,25 +12,27 @@
 
         <!-- Message Body -->
         <div style="font-family: 'Rounded MPlus 1c', 'Noto Sans JP'; color: #333;">
-            <h2 style="color: #e17abf;">{{ greeting }}</h2>
+            <h2 style="color: #e17abf;">{{ greeting }}{% if greeting_for_name_postfix %} {{ receiver.name }}{{ greeting_for_name_postfix }}{% else %} {{ receiver.name }}{% endif %}</h2>
 
             <p style="font-size: 16px;">
-                {{ text }}<br>
+                {{ body }}<br>
             </p>
 
             <p style="font-size: 16px; margin-top: 20px;">
-                {{ closing }}<br>
+                {{ closing }} {{ receiver.name }}<br>
                 {{ name }}<br>
             </p>
 
         </div>
         <!-- Button Link -->
+        {% if button_link and button_text %}
         <div style="margin-top: 30px; text-align: center;">
             <a href="{{ button_link }}"
                 style="background-color: #2a7ae2; color: #fff; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                 {{ button_text }}
             </a>
         </div>
+        {% endif %}
         <!-- Footer -->
         <p style="font-size: 12px; color: #999; margin-top: 40px; text-align: center;">
             &copy; {{ year }} {{ name }}, All rights reserved.<br>

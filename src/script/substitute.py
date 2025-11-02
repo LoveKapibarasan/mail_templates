@@ -58,12 +58,15 @@ def template(lang_code: str, filled_data_file_path: str) -> str:
     if 'header' in lang_data:
         template_vars.update({
             'imageURL': lang_data['header'].get('imageURL', template_vars.get('imageURL', '')),
+            'greeting_for_name_postfix': lang_data['header'].get('greeting_for_name_postfix', template_vars.get('greeting_for_name_postfix', '')),
             'greeting': lang_data['header'].get('greeting', template_vars.get('greeting', ''))
         })
     
     if 'footer' in lang_data:
         template_vars.update({
-            'closing': lang_data['footer'].get('closing', template_vars.get('closing', ''))
+            'closing': lang_data['footer'].get('closing', template_vars.get('closing', '')),
+            'button_text': lang_data['footer'].get('button_text', template_vars.get('button_text', '')),
+            'button_link': lang_data['footer'].get('button_link', template_vars.get('button_link', ''))
         })
     
     if 'sender' in lang_data:
