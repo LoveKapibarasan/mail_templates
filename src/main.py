@@ -55,13 +55,13 @@ class MailTemplateGUI(QWidget):
         subject_layout.addWidget(self.subject_input)
         layout.addLayout(subject_layout)
 
-        # 4. Sender Name input
-        sender_name_layout = QHBoxLayout()
-        sender_name_layout.addWidget(QLabel("Sender Name:"))
-        self.sender_name_input = QLineEdit()
-        self.sender_name_input.setPlaceholderText("Your Name")
-        sender_name_layout.addWidget(self.sender_name_input)
-        layout.addLayout(sender_name_layout)
+        # 4. Receiver Name input
+        receiver_name_layout = QHBoxLayout()
+        receiver_name_layout.addWidget(QLabel("Receiver Name:"))
+        self.receiver_name_input = QLineEdit()
+        self.receiver_name_input.setPlaceholderText("Recipient Name")
+        receiver_name_layout.addWidget(self.receiver_name_input)
+        layout.addLayout(receiver_name_layout)
 
         # 5. Body input
         layout.addWidget(QLabel("Body:"))
@@ -131,7 +131,7 @@ class MailTemplateGUI(QWidget):
                 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed: {str(e)}")
-            
+
 def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Simple Mail Template Generator")
