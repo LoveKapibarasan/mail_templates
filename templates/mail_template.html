@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="font-family: Arial, Rounded MPlus 1c, Noto Sans JP; background-color: #f4f4f4; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px;">
+        <!-- Header Image -->
+        <div style="text-align: center;">
+            <img src="{{ image_url }}" alt="Logo Image" width="200" style="margin-bottom: 20px;">
+        </div>
+
+        <!-- Message Body -->
+        <div style="font-family: 'Rounded MPlus 1c', 'Noto Sans JP'; color: #333;">
+            <h2 style="color: #e17abf;">{{ greeting_text }}</h2>
+
+            <p style="font-size: 16px;">
+                {{ text }}<br>
+            </p>
+
+            <p style="font-size: 16px; margin-top: 20px;">
+                {{ closing }}<br>
+                {{ name }}<br>
+            </p>
+
+        </div>
+        <!-- Button Link -->
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="{{ button_link }}"
+                style="background-color: #2a7ae2; color: #fff; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                {{ button_text }}
+            </a>
+        </div>
+        <!-- Footer -->
+        <p style="font-size: 12px; color: #999; margin-top: 40px; text-align: center;">
+            &copy; {{ year }} {{ name }}, All rights reserved.<br>
+        </p>
+    </div>
+</body>
+</html>

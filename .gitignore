@@ -1,62 +1,8 @@
 # important files folders
 Settings/Settings_email.json
 Settings/Settings_Lang.json
-Settings
-client_secret.json
-token.pickle
-credentials.json
-client_secrets.json
-venv
-.env
-
-# Byte-compiled / optimized / DLL files
-
+# cache
 __pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# PyQt / PySide UI files
-*.pyc
 
 # VS Code
 .vscode/
@@ -68,12 +14,8 @@ coverage.xml
 *.secret
 secrets.json
 
-# OS files
-.DS_Store
-Thumbs.db
-
 # Output files
-output.html
+output/output.html
 
 # OAuth2 credentials (if present)
 token.json
@@ -82,4 +24,6 @@ credentials.json
 # Logs
 *.log
 
-# Ignore mail attachments or
+# Venv
+venv/
+.venv/

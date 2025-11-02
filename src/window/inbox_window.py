@@ -99,6 +99,3 @@ class InboxWindow(QWidget):
             self.email_body.clear()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to move email to Trash:\n{e}")
-
-
-
