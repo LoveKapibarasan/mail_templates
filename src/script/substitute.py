@@ -58,6 +58,7 @@ def template(lang_code: str, filled_data_file_path: str) -> str:
     if 'header' in lang_data:
         template_vars.update({
             'imageURL': lang_data['header'].get('imageURL', template_vars.get('imageURL', '')),
+            'greeting_for_name_prefix': lang_data['header'].get('greeting_for_name_prefix', template_vars.get('greeting_for_name_prefix', '')),
             'greeting_for_name_postfix': lang_data['header'].get('greeting_for_name_postfix', template_vars.get('greeting_for_name_postfix', '')),
             'greeting': lang_data['header'].get('greeting', template_vars.get('greeting', ''))
         })
@@ -73,6 +74,29 @@ def template(lang_code: str, filled_data_file_path: str) -> str:
         template_vars.update({
             'name': lang_data['sender'].get('name', template_vars.get('name', ''))
         })
+    
+    # 5.5. Load mode-specific files from settings/lang_code/mode/*.json
+    if 'mode' in filled_data:
+        mode_dir = os.path.join(lang_dir, 'mode')
+        mode_data = filled_data['mode']
+        
+        # Load gender-specific file (e.g., male.json, female.json, neutral.json)
+        if 'gender' in mode_data:
+            gender_file = os.path.join(mode_dir, f"{mode_data['gender']}.json")
+            if os.path.exists(gender_file):
+                with open(gender_file, "r", encoding="utf-8") as f:
+                    gender_data = json.load(f)
+                    # Override template_vars with gender-specific data
+                    template_vars.update(gender_data)
+        
+        # Load formality-specific file (e.g., formal.json, informal.json)
+        if 'formal' in mode_data:
+            formal_file = os.path.join(mode_dir, f"{mode_data['formal']}.json")
+            if os.path.exists(formal_file):
+                with open(formal_file, "r", encoding="utf-8") as f:
+                    formal_data = json.load(f)
+                    # Override template_vars with formality-specific data
+                    template_vars.update(formal_data)
     
     # 6. Render template
     output = jinja_template.render(template_vars)

@@ -2,6 +2,8 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QVBoxLayout,
     QPushButton, QMessageBox, QHBoxLayout, QComboBox
 )
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import QSize
 import sys
 import os
 import json
@@ -15,6 +17,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'email'))
 
 from substitute import template
 from Lang import Lang, Langs
+from Mode import Mode, Modes, Gender, Formal
 from send_email import send_email
 
 class MailTemplateGUI(QWidget):
@@ -28,6 +31,13 @@ class MailTemplateGUI(QWidget):
     def init_ui(self):
         self.setWindowTitle("Mail Template Generator")
         self.setGeometry(100, 100, 500, 400)
+        
+        # Set window icon (try PNG first for better Linux compatibility, then ICO)
+        icon_dir = os.path.join(os.path.dirname(__file__), '..', 'ico')
+        # Set window icon
+        icon_path = os.path.join(os.path.dirname(__file__), '..', 'ico', 'mail_template.ico')
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
         
         layout = QVBoxLayout()
         
@@ -80,6 +90,23 @@ class MailTemplateGUI(QWidget):
         self.lang_combo.addItems(available_lang_codes)
         lang_layout.addWidget(self.lang_combo)
         layout.addLayout(lang_layout)
+
+        # 7. Mode button
+        # import MODE type to find all candidates
+        mode_layout = QHBoxLayout()
+        mode_layout.addWidget(QLabel("Mode:"))
+        self.mode_combo = QComboBox()
+        # Get available modes from Modes type
+        modes_container = Modes()
+        available_genders = modes_container.get_available_genders()
+        available_formal_levels = modes_container.get_available_formal_levels()
+        # Create mode combinations
+        for gender in available_genders:
+            for formal in available_formal_levels:
+                mode_display = f"{gender.title()}, {formal.title()}"
+                self.mode_combo.addItem(mode_display, (gender, formal))
+        mode_layout.addWidget(self.mode_combo)
+        layout.addLayout(mode_layout)
         
         # Send button
         self.send_btn = QPushButton("Send Email")
@@ -97,6 +124,10 @@ class MailTemplateGUI(QWidget):
     def save_and_generate(self):
         """Save data to settings/data.json and generate template"""
         try:
+            # Get selected mode
+            mode_data = self.mode_combo.currentData()
+            gender, formal = mode_data if mode_data else (Gender.NEUTRAL, Formal.FORMAL)
+            
             # Create filled_data from form inputs
             filled_data = {
                 "senderemail": self.sender_input.text() or "sender@example.com",
@@ -105,7 +136,11 @@ class MailTemplateGUI(QWidget):
                     "name": self.receiver_name_input.text() or "Recipient"
                 },
                 "subject": self.subject_input.text() or "subject",
-                "body": self.body_input.toPlainText() or "This is a test email message."
+                "body": self.body_input.toPlainText() or "This is a test email message.",
+                "mode": {
+                    "gender": gender,
+                    "formal": formal
+                }
             }
             
             # Save filled_data to data.json
@@ -136,7 +171,6 @@ def main():
     app = QApplication(sys.argv)
     app.setApplicationName("Simple Mail Template Generator")
     app.setApplicationVersion("1.2")
-    
     window = MailTemplateGUI()
     window.show()
     

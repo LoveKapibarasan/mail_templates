@@ -12,7 +12,7 @@
 
         <!-- Message Body -->
         <div style="font-family: 'Rounded MPlus 1c', 'Noto Sans JP'; color: #333;">
-            <h2 style="color: #e17abf;">{{ greeting }}{% if greeting_for_name_postfix %} {{ receiver.name }}{{ greeting_for_name_postfix }}{% else %} {{ receiver.name }}{% endif %}</h2>
+            <h2 style="color: #e17abf;">{{ greeting }}{% if greeting_for_name_prefix or greeting_for_name_postfix %} {% if greeting_for_name_prefix %}{{ greeting_for_name_prefix }}{% endif %}{{ receiver.name }}{% if greeting_for_name_postfix %}{{ greeting_for_name_postfix }}{% endif %}{% else %} {{ receiver.name }}{% endif %}</h2>
 
             <p style="font-size: 16px;">
                 {{ body }}<br>
