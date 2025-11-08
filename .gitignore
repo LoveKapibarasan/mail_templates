@@ -1,6 +1,7 @@
 # important files folders
-Settings/
-settings/
+**/sender.json
+
+
 # cache
 __pycache__/
 
