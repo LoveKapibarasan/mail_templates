@@ -41,11 +41,16 @@ def template(lang_code: str, filled_data_file_path: str) -> str:
     for file_name in ['header.json', 'footer.json', 'sender.json']:
         lang_file_path = os.path.join(lang_dir, file_name)
         if os.path.exists(lang_file_path):
-            with open(lang_file_path, "r", encoding="utf-8") as f:
-                file_data = json.load(f)
-                # Merge into lang_data with file prefix
-                base_name = file_name.replace('.json', '')
-                lang_data[base_name] = file_data
+            try:
+                with open(lang_file_path, "r", encoding="utf-8") as f:
+                    file_data = json.load(f)
+                    # Merge into lang_data with file prefix
+                    base_name = file_name.replace('.json', '')
+                    lang_data[base_name] = file_data
+            except json.JSONDecodeError as e:
+                print(f"[DEBUG] JSON Error in file: {lang_file_path}")
+                print(f"[DEBUG] {e}")
+                raise
     
     # 5. Combine filled_data + lang_data
     template_vars = {
@@ -84,19 +89,29 @@ def template(lang_code: str, filled_data_file_path: str) -> str:
         if 'gender' in mode_data:
             gender_file = os.path.join(mode_dir, f"{mode_data['gender']}.json")
             if os.path.exists(gender_file):
-                with open(gender_file, "r", encoding="utf-8") as f:
-                    gender_data = json.load(f)
-                    # Override template_vars with gender-specific data
-                    template_vars.update(gender_data)
-        
+                try:
+                    with open(gender_file, "r", encoding="utf-8") as f:
+                        gender_data = json.load(f)
+                        # Override template_vars with gender-specific data
+                        template_vars.update(gender_data)
+                except json.JSONDecodeError as e:
+                    print(f"[DEBUG] JSON Error in file: {gender_file}")
+                    print(f"[DEBUG] {e}")
+                    raise
+
         # Load formality-specific file (e.g., formal.json, informal.json)
         if 'formal' in mode_data:
             formal_file = os.path.join(mode_dir, f"{mode_data['formal']}.json")
             if os.path.exists(formal_file):
-                with open(formal_file, "r", encoding="utf-8") as f:
-                    formal_data = json.load(f)
-                    # Override template_vars with formality-specific data
-                    template_vars.update(formal_data)
+                try:
+                    with open(formal_file, "r", encoding="utf-8") as f:
+                        formal_data = json.load(f)
+                        # Override template_vars with formality-specific data
+                        template_vars.update(formal_data)
+                except json.JSONDecodeError as e:
+                    print(f"[DEBUG] JSON Error in file: {formal_file}")
+                    print(f"[DEBUG] {e}")
+                    raise
     
     # 6. Render template
     output = jinja_template.render(template_vars)

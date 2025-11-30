@@ -45,3 +45,6 @@ source .venv/bin/activate && pip install --upgrade pip
 source .venv/bin/activate && pip install -r requirements.txt
 source .venv/bin/activate && python src/script/substitute.py
 ```
+
+###
+* Remove all 全角スペース

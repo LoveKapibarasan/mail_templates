@@ -22,6 +22,11 @@ class Header:
                 imageURL=lang_data.get('imageURL', self.imageURL),
                 greeting=lang_data.get('greeting', self.greeting)
             )
-        except (FileNotFoundError, json.JSONDecodeError):
-            # Return current instance if language file doesn't exist or is invalid
+        except FileNotFoundError:
+            # Return current instance if language file doesn't exist
+            return self
+        except json.JSONDecodeError as e:
+            print(f"[DEBUG] JSON Error in file: {settings_path}")
+            print(f"[DEBUG] {e}")
+            # Return current instance but print error
             return self

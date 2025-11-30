@@ -152,6 +152,7 @@ class MailTemplateGUI(QWidget):
             
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed: {str(e)}")
+            print(f"[DEBUG] {str(e)}")
             return None
     
     def send_email(self):
